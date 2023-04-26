@@ -20,7 +20,7 @@ may be eating simultaneously, since there are five philosophers and five forks.
 
 */
 
-// Philosopher struct holds information about philosopher and the forks that philosopher is holding
+// Philosopher struct holds information about philosopher and the forks that philosopher is holding.
 type Philosopher struct {
 	name      string
 	leftFork  int
@@ -42,6 +42,7 @@ const (
 	thinkTime                = 3 * time.Second
 )
 
+// To store the order in which philosophers completed eating.
 var orderMutex sync.Mutex
 var orderFinished []string
 
@@ -117,7 +118,10 @@ func diningProblem(philosopher Philosopher, philosophersEatingWG *sync.WaitGroup
 	}
 	fmt.Println(philosopher.name, "is satisfied.")
 	fmt.Println(philosopher.name, "left the table.")
-
+	
+	// This condition is to acquire lock and add the philosopher name to a slice,
+	// which can be used at the end of the program to print the order in which
+	// philosophers completed eating.
 	orderMutex.Lock()
 	orderFinished = append(orderFinished, philosopher.name)
 	orderMutex.Unlock()
